@@ -11,20 +11,20 @@ export default function ChatBox() {
   const router = useRouter();
 
   async function sendMessage() {
-    if (!input.trim()) return;
+  if (!input.trim()) return;
 
-    const userMsg = { sender: "user", text: input };
-    setMessages((prev) => [...prev, userMsg]);
-    setInput("");
+  const userMsg: { sender: "user" | "ai"; text: string } = { sender: "user", text: input };
+  setMessages((prev) => [...prev, userMsg]);
+  setInput("");
 
-    try {
-      const res = await axios.post("/api/chat", { message: input, userId: "demo-user" });
-      const aiMsg = { sender: "ai", text: res.data.reply };
-      setMessages((prev) => [...prev, aiMsg]);
-    } catch (err) {
-      setMessages((prev) => [...prev, { sender: "ai", text: "Error connecting to AI" }]);
-    }
+  try {
+    const res = await axios.post("/api/chat", { message: input, userId: "demo-user" });
+    const aiMsg: { sender: "user" | "ai"; text: string } = { sender: "ai", text: res.data.reply };
+    setMessages((prev) => [...prev, aiMsg]);
+  } catch (_err) {
+    setMessages((prev) => [...prev, { sender: "ai", text: "Error connecting to AI" }]);
   }
+}
 
   return (
     <div className="flex flex-col h-screen p-4 bg-gray-50">
