@@ -1,15 +1,15 @@
-interface MessageProps {
+type MessageProps = {
   sender: "user" | "ai";
   text: string;
-}
+  className?: string; // optional for hover/3D effects
+};
 
-export default function MessageBubble({ sender, text }: MessageProps) {
+export default function MessageBubble({ sender, text, className }: MessageProps) {
   return (
-    <div className={`flex ${sender === "user" ? "justify-end" : "justify-start"} my-2`}>
-      <div className={`px-4 py-2 rounded-2xl max-w-sm 
-        ${sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}>
-        {text}
-      </div>
+    <div
+      className={`p-2 rounded-xl ${sender === "user" ? "bg-blue-100" : "bg-gray-100"} ${className || ""}`}
+    >
+      <b>{sender.toUpperCase()}:</b> {text}
     </div>
   );
 }
